@@ -76,7 +76,6 @@ export default class ActivitiesService {
 
          const isProvider: IRoles | ObjectId | any = user.role;
          
-         
          if (isProvider.roleName === "PROVIDER" || isProvider.roleName === "ADMIN") {
             activity.providerId = user._id;
             activity.galleryImage = urlImages;
@@ -101,7 +100,12 @@ export default class ActivitiesService {
    public update = async (
       bodyController: any
    ): Promise<IActivities | MessageError> => {
-      const { idActivity, newActivity, images } = bodyController;
+      const { idActivity, newActivity, images ,idUser } = bodyController;
+
+      const provider: IUser = await this.usermanager.getById(idUser);
+
+      if (!provider)
+        return { status: 400, message: "Bad request provider not found" };
 
       if(images) {
          newActivity.galleryImage = setArrayImages(images)
@@ -121,6 +125,50 @@ export default class ActivitiesService {
          }
 
          return updatedActivity;
+      } catch (error) {
+         throw error;
+      }
+   };
+
+   public filterActivities = async (formData : IActivities): Promise<IActivities[] | Error> => {
+      try {
+         let activities = await this.activitiesManager.getAll();
+
+         if(formData.location){
+           activities = activities.filter((el : IActivities)=> el.location.toLowerCase().includes(formData.location.toLowerCase()))
+         }
+
+         if(formData.startTime && formData.endTime){
+            
+            const fechaInicio = new Date(formData.startTime);
+            const fechaFin = new Date(formData.endTime);
+
+            activities = activities.filter((el:IActivities )=> {
+               const startDate = new Date(el.startTime);
+               const endDate = new Date(el.endTime);
+               return startDate >= fechaInicio && endDate <= fechaFin;
+             });
+         }
+         else if(formData.startTime){
+            const fechaInicio = new Date(formData.startTime);
+            activities = activities.filter((el:IActivities )=> {
+               const startDate = new Date(el.startTime);
+               return startDate >= fechaInicio 
+             });
+         }
+         else if(formData.endTime){
+            const fechaFin = new Date(formData.endTime);
+            activities = activities.filter((el:IActivities )=> {
+               const endDate = new Date(el.endTime);
+               return  endDate <= fechaFin;
+             });
+         }
+
+         if(formData.maxPeople){
+            activities = activities.filter((el: IActivities)=> el.maxPeople === formData.maxPeople)
+         }
+ 
+         return activities;
       } catch (error) {
          throw error;
       }

@@ -136,12 +136,95 @@ this.router.get(
        *               $ref: '#/components/schemas/Error'
        */
 
-      this.router.post(
-         "/activity/:idUser/create/",
-         this.upload.any(),
-         this.activitiesController.createActivity
-      );
-      this.router.get("");
+      this.router.post('/activity/:idUser/create/', this.upload.any(), this.activitiesController.createActivity)
+
+     /**
+ * @swagger
+ * /api/activities:
+ *   post:
+ *     summary: Filtrar actividades
+ *     description: Filtra las actividades segun los datos que ingresa el usuario
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/CreateActivityRequestBody'
+ *     responses:
+ *       200:
+ *         description: Retorna la actividad filtrada 
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Activity'
+ *     
+ *       500:
+ *         description: Error interno del servidor.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ */
+
+     this.router.post('/activity/filter', this.activitiesController.filterActivity)
+
+   /**
+ * @swagger
+ * /activity/{idUser}/update/{idActivity}:
+ *   put:
+ *     summary: Update a activity
+ *     tags: [Activities]
+ *     parameters:
+ *       - in: path
+ *         name: idUser
+ *         required: true
+ *         description: ID of the user
+ *         schema:
+ *           type: string
+ *       - in: path
+ *         name: idActivity
+ *         required: true
+ *         description: ID of the activity
+ *         schema:
+ *           type: string
+ *       - in: formData
+ *         name: ActivityObject
+ *         required: true
+ *         description: Activity object
+ *         schema:
+ *           $ref: '#/components/schemas/Activity'
+ *       - in: formData
+ *         name: img
+ *         required: false
+ *         description: Images of the Activity
+ *         schema:
+ *           type: array
+ *           items:
+ *             type: string
+ *             format: binary
+ *     responses:
+ *       200:
+ *         description: Activity updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Activity'
+ *       400:
+ *         description: Invalid destination data
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorMessage'
+ *       500:
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorMessage'
+ */
+     this.router.put( "/activity/:idUser/update/:idActivity", this.upload.any(), this.activitiesController.updateActivity );
+      this.router.get('')
+   
    }
 
    public getRouter() {
