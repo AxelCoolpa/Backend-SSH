@@ -1,0 +1,39 @@
+# Node.js
+node_modules/
+npm-debug.log
+yarn-error.log
+.ssh/id_rsa
+# Build output
+# dist/
+# build/
+
+# IDE/Editor
+.vscode/
+.idea/
+*.sublime-*
+*.swp
+
+# Logs
+logs/
+*.log
+
+# Test output
+coverage/
+
+# Environment variables
+.env
+
+# Dependency lock files
+yarn.lock
+package-lock.json
+
+# Typescript compilation artifacts
+*.js
+*.js.map
+*.d.ts
+
+# Mac-specific
+.DS_Store
+
+# Windows-specific
+Thumbs.db
