@@ -76,6 +76,7 @@ export default class ActivitiesService {
 
          const isProvider: IRoles | ObjectId | any = user.role;
          
+         
          if (isProvider.roleName === "PROVIDER" || isProvider.roleName === "ADMIN") {
             activity.providerId = user._id;
             activity.galleryImage = urlImages;
