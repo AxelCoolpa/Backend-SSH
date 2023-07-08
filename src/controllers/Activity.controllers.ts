@@ -63,7 +63,8 @@ export default class ActivitiesController {
 
    public updateActivity = async (req: Request, res: Response) => {
       try {
-         const { idActivity } = req.params;
+         const { idActivity ,idUser } = req.params;
+         
          const newActivity: IActivities = req.body;
          const images = req.files;
 
@@ -71,6 +72,8 @@ export default class ActivitiesController {
             idActivity,
             newActivity,
             images,
+            idUser
+
          };
 
          const updateActivity = await this.activitiesService.update(
@@ -89,5 +92,14 @@ export default class ActivitiesController {
       }
    };
 
-   
+   public filterActivity = async (req: Request ,res: Response) => {
+        const filterData = req.body
+
+        try {
+         const activities = await this.activitiesService.filterActivities(filterData);
+         return res.status(200).json(activities);
+      } catch (error) {
+         return res.status(500).json({ error: messageError(error) });
+      }
+   }
 }
