@@ -17,4 +17,5 @@ export default interface IActivities extends Document {
    reviews:string;
    providerId:ObjectId;
    isDeleted:boolean;
+  
 }
