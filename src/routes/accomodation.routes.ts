@@ -4,7 +4,7 @@ import AccomodationController from "../controllers/Accomodation.controllers";
 import { Multer } from "multer";
 import MulterConfig from "../utils/config/multerConfig";
 
-export default class ActivitiesRoutes {
+export default class AccomodationRoutes {
    public router: Router;
    private accomodationController: AccomodationController;
    private upload: Multer;
