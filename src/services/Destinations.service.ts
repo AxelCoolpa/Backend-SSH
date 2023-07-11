@@ -17,12 +17,12 @@ export default class DestinationsService {
    }
 
    public serviceDestinations = async (
-      search: string | undefined
+      queryString: any
    ): Promise<IDestinations[] | MessageError> => {
       try {
-         if (search) {
+         if ("search" in queryString) {
             const destinationsSearch = await this.managerDestinations.search(
-               search
+               queryString["search"],
             );
 
             if (!destinationsSearch)

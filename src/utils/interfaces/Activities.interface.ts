@@ -13,7 +13,7 @@ export default interface IActivities extends Document {
    maxPeople: number
    groupPrice:string;
    individualPrice:string;
-   rating:string;
+   rating:number;
    reviews:string;
    providerId:ObjectId;
    isDeleted:boolean;

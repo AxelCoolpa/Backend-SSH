@@ -28,7 +28,7 @@ export default class UserManager extends ManagerDB<IUser> {
    async getAll(): Promise<IUser[] | null> {
       try {
          return await this.model
-            .find({ itDeleted: false }, { password: 0 })
+            .find({}, { password: 0 })
             .populate("role", { roleName: 1, _id: 0 })
             .populate("profileProvider", { user: 0 })
             .populate("activities");

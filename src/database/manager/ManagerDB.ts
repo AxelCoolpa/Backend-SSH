@@ -11,7 +11,7 @@ export default class ManagerDB<T extends Document> implements ICRUD<T> {
 
    async getAll(): Promise<T[] | any> {
       try {
-         return await this.model.find({ itDeleted: false }).exec();
+         return await this.model.find().exec();
       } catch (err) {
          throw err;
       }

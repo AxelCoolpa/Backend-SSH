@@ -22,6 +22,6 @@ const rolesSchema = new Schema<IRoles>({
         default:false,
     }
 
-})
+}, {timestamps:true});
 
 export default model<IRoles>('Role',rolesSchema)

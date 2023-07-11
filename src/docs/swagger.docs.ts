@@ -1,5 +1,6 @@
 import swaggerJSDoc, { OAS3Definition, OAS3Options } from "swagger-jsdoc";
 import config from "../utils/config/config";
+import { ObjectId } from "mongoose";
 
 const swaggerDefinition = {
    openapi: "3.0.0",
@@ -12,7 +13,6 @@ const swaggerDefinition = {
       {
          url: config.baseURL,
       },
-      
    ],
    tags: [
       {
@@ -60,7 +60,6 @@ const swaggerDefinition = {
                   required: true,
                   description: "User's email",
                },
-              
             },
          },
          UserResponse: {
@@ -70,7 +69,7 @@ const swaggerDefinition = {
                   type: "string",
                   required: true,
                   description: "User's username",
-               },              
+               },
                email: {
                   type: "string",
                   required: true,
@@ -112,7 +111,6 @@ const swaggerDefinition = {
                   required: true,
                   description: "Profile's DNI",
                },
-              
             },
          },
          Role: {
@@ -123,7 +121,7 @@ const swaggerDefinition = {
                   required: true,
                },
             },
-         },       
+         },
          Provider: {
             type: "object",
             properties: {
@@ -165,33 +163,89 @@ const swaggerDefinition = {
             type: "object",
             properties: {
                title: {
-                  type: String,
-                  required: true,
+                  type: "string",
+                  required: true
                },
                description: {
-                  type: String,
-                  required: true,
-               },              
+                  type: "string",
+                  required: true
+               },
                categories: {
-                  type: Array,
+                  type: "array",
                   required: true,
                   items: {
-                     type: String,
-                     required: true,
-                  },
+                     type: "string",
+                     required: true
+                  }
                },
                location: {
-                  type: String,
-                  required: true,
-               },               
-              
+                  type: "string",
+                  required: true
+               }
+            }
+         },
+         
+         Activity: {
+            type: "object",
+            properties: {
+               title: { type: "string" },
+               description: { type: "string" },
+               location: { type: "string" },
+               galleryImage: {
+                  type: "array",
+                  items: {
+                     type: "string",
+                  },
+               },
+               videoLink: { type: "string" },
+               category: {
+                  type: "array",
+                  items: { type: "string" },
+               },
+               starterPack: {
+                  type: "array",
+                  items: { type: "string" },
+               },
+               startTime: { type: "string" },
+               endTime: { type: "string" },
+               maxPeople: { type: "integer" },
+               groupPrice: { type: "string" },
+               individualPrice: { type: "string" },
+               rating: { type: "number" },
+               reviews: { type: "string" },
+               providerId: { type: "ObjectId",  $ref: "UserResponse" },
+               isDeleted: { type: "boolean" },
             },
          },
+         
+         ActivityRequestBody: {
+            type: "object",
+            properties: {
+               title: { type: "string" },
+               description: { type: "string" },
+               location: { type: "string" },
+               galleryImage: {
+                  type: "array",
+                  items: {
+                     type: "string",
+                  },
+               },
+               videoLink: { type: "string" },
+               category: { type: "array", items: { type: "string" } },
+               starterPack: { type: "array", items: { type: "string" } },
+               startTime: { type: "string" },
+               endTime: { type: "string" },
+               maxPeople: { type: "number" },
+               groupPrice: { type: "string" },
+               individualPrice: { type: "string" },
+            },
+         },
+         
          ErrorMessage: {
             type: "object",
             properties: {
                Message: {
-                  type: String,
+                  type: "string",
                },
             },
          },

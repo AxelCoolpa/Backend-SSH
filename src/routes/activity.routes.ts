@@ -34,58 +34,58 @@ export default class ActivitiesRoutes {
        *         content:
        *           application/json:
        *             schema:
-       *               $ref: '#/components/schemas/Activities'
+       *               $ref: '#/components/schemas/Activity'
        *       500:
        *         description: Error interno del servidor.
        *         content:
        *           application/json:
        *             schema:
-       *               $ref: '#/components/schemas/Error'
+       *               $ref: '#/components/schemas/ErrorMessage'
        */
       this.router.get("/activities", this.activitiesController.getActivities);
 
-     /**
- * @swagger
- * tags:
- *   name: activity
- *   description: Operaciones relacionadas con actividades
- * /api/activity/{id}:
- *   get:
- *     summary: Obtener actividad por ID
- *     description: Obtiene una actividad específica según su ID.
- *     tags: [activity]
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: string
- *         description: ID de la actividad a obtener.
- *     responses:
- *       200:
- *         description: Retorna la actividad correspondiente al ID.
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Activity'
- *       404:
- *         description: La actividad no fue encontrada.
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/MessageError'
- *       500:
- *         description: Error interno del servidor.
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Error'
- */
-this.router.get(
-   "/activity/:idActivity",
-   this.activitiesController.getActivityById
- );
- 
+      /**
+       * @swagger
+       * tags:
+       *   name: activity
+       *   description: Operaciones relacionadas con actividades
+       * /api/activity/{id}:
+       *   get:
+       *     summary: Obtener actividad por ID
+       *     description: Obtiene una actividad específica según su ID.
+       *     tags: [activity]
+       *     parameters:
+       *       - in: path
+       *         name: id
+       *         required: true
+       *         schema:
+       *           type: string
+       *         description: ID de la actividad a obtener.
+       *     responses:
+       *       200:
+       *         description: Retorna la actividad correspondiente al ID.
+       *         content:
+       *           application/json:
+       *             schema:
+       *               $ref: '#/components/schemas/Activity'
+       *       404:
+       *         description: La actividad no fue encontrada.
+       *         content:
+       *           application/json:
+       *             schema:
+       *               $ref: '#/components/schemas/ErrorMessage'
+       *       500:
+       *         description: Error interno del servidor.
+       *         content:
+       *           application/json:
+       *             schema:
+       *               $ref: '#/components/schemas/ErrorMessage'
+       */
+      this.router.get(
+         "/activity/:idActivity",
+         this.activitiesController.getActivityById
+      );
+
       /**
        * @swagger
        * tags:
@@ -108,7 +108,7 @@ this.router.get(
        *       content:
        *         application/json:
        *           schema:
-       *             $ref: '#/components/schemas/CreateActivityRequestBody'
+       *             $ref: '#/components/schemas/ActivityRequestBody'
        *     responses:
        *       200:
        *         description: Retorna la nueva actividad creada.
@@ -121,13 +121,50 @@ this.router.get(
        *         content:
        *           application/json:
        *             schema:
-       *               $ref: '#/components/schemas/MessageError'
+       *               $ref: '#/components/schemas/ErrorMessage'
        *       404:
        *         description: El destino o el usuario no fueron encontrados.
        *         content:
        *           application/json:
        *             schema:
-       *               $ref: '#/components/schemas/MessageError'
+       *               $ref: '#/components/schemas/ErrorMessage'
+       *       500:
+       *         description: Error interno del servidor.
+       *         content:
+       *           application/json:
+       *             schema:
+       *               $ref: '#/components/schemas/ErrorMessage'
+       */
+
+      this.router.post(
+         "/activity/:idUser/create/",
+         this.upload.any(),
+         this.activitiesController.createActivity
+      );
+
+      /**
+       * @swagger
+       * tags:
+       *   name: activity
+       *   description: Operaciones relacionadas con actividades
+       * /api/activities:
+       *   post:
+       *     summary: Filtrar actividades
+       *     description: Filtra las actividades segun los datos que ingresa el usuario
+       *     requestBody:
+       *       required: true
+       *       content:
+       *         application/json:
+       *           schema:
+       *             $ref: '#/components/schemas/CreateActivityRequestBody'
+       *     responses:
+       *       200:
+       *         description: Retorna la actividad filtrada
+       *         content:
+       *           application/json:
+       *             schema:
+       *               $ref: '#/components/schemas/Activity'
+       *
        *       500:
        *         description: Error interno del servidor.
        *         content:
@@ -136,95 +173,71 @@ this.router.get(
        *               $ref: '#/components/schemas/Error'
        */
 
-      this.router.post('/activity/:idUser/create/', this.upload.any(), this.activitiesController.createActivity)
+      this.router.post(
+         "/activity/filter",
+         this.activitiesController.filterActivity
+      );
 
-     /**
- * @swagger
- * /api/activities:
- *   post:
- *     summary: Filtrar actividades
- *     description: Filtra las actividades segun los datos que ingresa el usuario
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/CreateActivityRequestBody'
- *     responses:
- *       200:
- *         description: Retorna la actividad filtrada 
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Activity'
- *     
- *       500:
- *         description: Error interno del servidor.
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Error'
- */
-
-     this.router.post('/activity/filter', this.activitiesController.filterActivity)
-
-   /**
- * @swagger
- * /activity/{idUser}/update/{idActivity}:
- *   put:
- *     summary: Update a activity
- *     tags: [Activities]
- *     parameters:
- *       - in: path
- *         name: idUser
- *         required: true
- *         description: ID of the user
- *         schema:
- *           type: string
- *       - in: path
- *         name: idActivity
- *         required: true
- *         description: ID of the activity
- *         schema:
- *           type: string
- *       - in: formData
- *         name: ActivityObject
- *         required: true
- *         description: Activity object
- *         schema:
- *           $ref: '#/components/schemas/Activity'
- *       - in: formData
- *         name: img
- *         required: false
- *         description: Images of the Activity
- *         schema:
- *           type: array
- *           items:
- *             type: string
- *             format: binary
- *     responses:
- *       200:
- *         description: Activity updated successfully
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Activity'
- *       400:
- *         description: Invalid destination data
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/ErrorMessage'
- *       500:
- *         description: Internal server error
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/ErrorMessage'
- */
-     this.router.put( "/activity/:idUser/update/:idActivity", this.upload.any(), this.activitiesController.updateActivity );
-      this.router.get('')
-   
+      /**
+       * @swagger
+       * /api/activity/{idUser}/update/{idActivity}:
+       *   put:
+       *     summary: Update a activity
+       *     tags: [activity]
+       *     parameters:
+       *       - in: path
+       *         name: idUser
+       *         required: true
+       *         description: ID of the user
+       *         schema:
+       *           type: string
+       *       - in: path
+       *         name: idActivity
+       *         required: true
+       *         description: ID of the activity
+       *         schema:
+       *           type: string
+       *       - in: formData
+       *         name: ActivityObject
+       *         required: true
+       *         description: Activity object
+       *         schema:
+       *           $ref: '#/components/schemas/ActivityRequestBody'
+       *       - in: formData
+       *         name: img
+       *         required: false
+       *         description: Images of the Activity
+       *         schema:
+       *           type: array
+       *           items:
+       *             type: string
+       *             format: binary
+       *     responses:
+       *       200:
+       *         description: Activity updated successfully
+       *         content:
+       *           application/json:
+       *             schema:
+       *               $ref: '#/components/schemas/Activity'
+       *       400:
+       *         description: Invalid destination data
+       *         content:
+       *           application/json:
+       *             schema:
+       *               $ref: '#/components/schemas/ErrorMessage'
+       *       500:
+       *         description: Internal server error
+       *         content:
+       *           application/json:
+       *             schema:
+       *               $ref: '#/components/schemas/ErrorMessage'
+       */
+      this.router.put(
+         "/activity/:idUser/update/:idActivity",
+         this.upload.any(),
+         this.activitiesController.updateActivity
+      );
+      this.router.get("");
    }
 
    public getRouter() {
