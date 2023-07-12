@@ -18,29 +18,46 @@ export default class DestinationsRoutes {
    private routesConfiger(): void {
       /**
        * @swagger
-       * tags:
-       *   name: Destinations
-       *   description: Destination operations
-       *
        * /api/destinations:
        *   get:
-       *     summary: Get all destinations
-       *     tags: [Destinations]
+       *     summary: Obtiene destinos según los parámetros de búsqueda.
+       *     parameters:
+       *       - in: query
+       *         name: search
+       *         schema:
+       *           type: string
+       *         description: Término de búsqueda para buscar destinos.
+       *       - in: query
+       *         name: destination
+       *         schema:
+       *           type: string
+       *         description: ID del destino específico a consultar.
+       *       - in: query
+       *         name: startDate
+       *         schema:
+       *           type: string
+       *           format: date
+       *         description: Fecha de inicio para filtrar actividades por tiempo.
+       *       - in: query
+       *         name: endDate
+       *         schema:
+       *           type: string
+       *           format: date
+       *         description: Fecha de fin para filtrar actividades por tiempo.
+       *       - in: query
+       *         name: categories
+       *         schema:
+       *           type: array
+       *           items:
+       *             type: string
+       *         description: Categorías de actividades a filtrar.
        *     responses:
        *       200:
-       *         description: Successful operation
-       *         content:
-       *           application/json:
-       *             schema:
-       *               type: array
-       *               items:
-       *                 $ref: '#/components/schemas/Destination'
+       *         description: Datos de los destinos y/o actividades.
+       *       404:
+       *         description: No se encontraron destinos.
        *       500:
-       *         description: Internal server error
-       *         content:
-       *           application/json:
-       *             schema:
-       *               $ref: '#/components/schemas/ErrorMessage'
+       *         description: Error interno del servidor.
        */
 
       this.router.get("/destinations", this.destinationsControllers.getAll);
@@ -137,63 +154,63 @@ export default class DestinationsRoutes {
 
       this.router.post(
          "/destination/:idUser/create",
-         
+
          this.destinationsControllers.createController
       );
       /**
- * @swagger
- * /destination/{idUser}/update/{idDestination}:
- *   put:
- *     summary: Update a destination
- *     tags: [Destinations]
- *     parameters:
- *       - in: path
- *         name: idUser
- *         required: true
- *         description: ID of the user
- *         schema:
- *           type: string
- *       - in: path
- *         name: idDestination
- *         required: true
- *         description: ID of the destination
- *         schema:
- *           type: string
- *       - in: formData
- *         name: destinationObjet
- *         required: true
- *         description: Destination object
- *         schema:
- *           $ref: '#/components/schemas/Destination'
- *       - in: formData
- *         name: img
- *         required: false
- *         description: Images of the destination
- *         schema:
- *           type: array
- *           items:
- *             type: string
- *             format: binary
- *     responses:
- *       200:
- *         description: Destination updated successfully
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Destination'
- *       400:
- *         description: Invalid destination data
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/ErrorMessage'
- *       500:
- *         description: Internal server error
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/ErrorMessage'
- */
+       * @swagger
+       * /destination/{idUser}/update/{idDestination}:
+       *   put:
+       *     summary: Update a destination
+       *     tags: [Destinations]
+       *     parameters:
+       *       - in: path
+       *         name: idUser
+       *         required: true
+       *         description: ID of the user
+       *         schema:
+       *           type: string
+       *       - in: path
+       *         name: idDestination
+       *         required: true
+       *         description: ID of the destination
+       *         schema:
+       *           type: string
+       *       - in: formData
+       *         name: destinationObjet
+       *         required: true
+       *         description: Destination object
+       *         schema:
+       *           $ref: '#/components/schemas/Destination'
+       *       - in: formData
+       *         name: img
+       *         required: false
+       *         description: Images of the destination
+       *         schema:
+       *           type: array
+       *           items:
+       *             type: string
+       *             format: binary
+       *     responses:
+       *       200:
+       *         description: Destination updated successfully
+       *         content:
+       *           application/json:
+       *             schema:
+       *               $ref: '#/components/schemas/Destination'
+       *       400:
+       *         description: Invalid destination data
+       *         content:
+       *           application/json:
+       *             schema:
+       *               $ref: '#/components/schemas/ErrorMessage'
+       *       500:
+       *         description: Internal server error
+       *         content:
+       *           application/json:
+       *             schema:
+       *               $ref: '#/components/schemas/ErrorMessage'
+       */
       this.router.put(
          "/destination/:idUser/update/:idDestination",
          this.upload.any(),

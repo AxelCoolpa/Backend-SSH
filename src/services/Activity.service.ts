@@ -152,6 +152,23 @@ export default class ActivitiesService {
       }
    };
 
+   public delete = async (idActivity: string): Promise<boolean | MessageError>=>{
+      try {
+         const deletedActivity = await this.activitiesManager.delete(idActivity);
+         if (!deletedActivity) {
+            return {
+               status: 404,
+               message: "Activity not fond",
+            };
+         }
+         return true;
+      } catch (error) {
+         throw error;
+      }
+   
+
+   }
+
    public filterActivities = async (
       formData: IActivities
    ): Promise<IActivities[] | Error> => {
