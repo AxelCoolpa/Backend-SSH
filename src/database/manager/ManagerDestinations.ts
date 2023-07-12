@@ -3,6 +3,7 @@ import IDestinations from "../../utils/interfaces/Destinations.Interfaces";
 import Destinations from "../models/Destinations";
 import ManagerDB from "./ManagerDB";
 import IActivities from "../../utils/interfaces/Activities.interface";
+import IAccomodation from "../../utils/interfaces/Accomodation.interface";
 
 export default class DestinationsManager extends ManagerDB<IDestinations> {
    private static instance: DestinationsManager;
@@ -92,5 +93,15 @@ export default class DestinationsManager extends ManagerDB<IDestinations> {
       }
    };
 
-
+   addAccomodations = async (
+      destination: IDestinations,
+      accomodations: IAccomodation
+   ) => {
+      try {
+         destination.accomodations.push(accomodations._id);
+         await destination.save();
+      } catch (error) {
+         throw error;
+      }
+   };
 }

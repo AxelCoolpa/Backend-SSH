@@ -9,7 +9,7 @@ export default interface IDestinations extends Document {
    categories: Array<string>;
    activities: Array<ObjectId>;
    itDeleted: boolean;
-   
+   accomodations: Array<ObjectId>;
 }
 
 

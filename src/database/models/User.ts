@@ -52,6 +52,13 @@ const userSchema = new Schema<IUser>({
       ref: "Activities",
       default: [],
    },
+   accomodations: [
+      {
+         type: Schema.Types.ObjectId,
+         required: false,
+         ref: "Accomodation",
+      },
+   ],
    avatar: {
       type: String,
       default: "",
