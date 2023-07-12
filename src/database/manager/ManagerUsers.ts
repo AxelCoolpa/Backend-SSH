@@ -8,6 +8,7 @@ import Role from "../models/Role";
 import IRoles from "../../utils/interfaces/Roles.Interfaces";
 import IProfileProvider from "../../utils/interfaces/ProfileProvider.interces";
 import IActivities from "../../utils/interfaces/Activities.interface";
+import IAccomodation from "../../utils/interfaces/Accomodation.interface";
 
 export default class UserManager extends ManagerDB<IUser> {
    
@@ -116,5 +117,19 @@ export default class UserManager extends ManagerDB<IUser> {
       return jwt.sign({ id: user._id, email: user.email }, config.jwtSecret, {
          expiresIn: 3600,
       });
+   }
+
+   async addAccomodations(
+      user: IUser,
+      accomodations: IAccomodation,
+
+   ): Promise<IUser | null> {
+      try {
+         let userAccomodations = user;
+         userAccomodations.accomodations.push(accomodations._id);
+         return await userAccomodations.save();
+      } catch (error) {
+         throw error;
+      }
    }
 }

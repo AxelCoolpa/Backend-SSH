@@ -22,4 +22,5 @@ export default interface IUser extends Document {
    profileProvider: ObjectId;   
    sub: string;
    activities: ObjectId[];
+   accomodations: ObjectId[];
 }
