@@ -23,17 +23,17 @@ const rolesSchema = new Schema<IAccomodation>({
         
     },
     category:{
-        type:[String],
-        required:true,
+        type:String,
+        required:false,
         
     },
     quantity:{
         type:Number,
-        required:true,
+        required:false,
         
     },
     zone:{
-        type:String,
+        type:[String],
         required:false,
         
     },
