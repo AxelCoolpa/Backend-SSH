@@ -27,6 +27,13 @@ const DestinosSchema = new Schema<IDestinations>(
             ref: "Activities",
          },
       ],
+      accomodations: [
+         {
+            type: Schema.Types.ObjectId,
+            required: false,
+            ref: "Accomodation",
+         },
+      ],
       galleryImage: {
          type: String,
          required: false,

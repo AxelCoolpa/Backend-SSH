@@ -3,6 +3,7 @@ node_modules/
 npm-debug.log
 yarn-error.log
 .ssh/id_rsa
+.npm/
 # Build output
 # dist/
 # build/
@@ -16,7 +17,7 @@ yarn-error.log
 # Logs
 logs/
 *.log
-
+upload/
 # Test output
 coverage/
 
