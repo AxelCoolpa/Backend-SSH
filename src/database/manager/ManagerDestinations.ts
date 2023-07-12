@@ -17,7 +17,7 @@ export default class DestinationsManager extends ManagerDB<IDestinations> {
       }
       return DestinationsManager.instance;
    }
-   async getAll(): Promise<IDestinations[]> {
+   public async getAll(): Promise<IDestinations[]> {
       try {
          return await this.model.find().populate("activities");
       } catch (error) {
@@ -25,7 +25,7 @@ export default class DestinationsManager extends ManagerDB<IDestinations> {
       }
    }
 
-   async getById(idDestination: string): Promise<IDestinations> {
+   public async getById(idDestination: string): Promise<IDestinations> {
       try {
          return await this.model.findById(idDestination).populate("activities");
       } catch (error) {
@@ -33,7 +33,7 @@ export default class DestinationsManager extends ManagerDB<IDestinations> {
       }
    }
 
-   async search(search: any): Promise<IDestinations[]> {
+   public async search(search: any): Promise<IDestinations[]> {
       try {
          const searchDestinations = await this.model
             .find({
@@ -50,7 +50,7 @@ export default class DestinationsManager extends ManagerDB<IDestinations> {
       }
    }
 
-   async create(destinationObjt: any): Promise<IDestinations> {
+   public async create(destinationObjt: any): Promise<IDestinations> {
       try {
          const newDestination: IDestinations = await this.model(
             destinationObjt
@@ -64,7 +64,7 @@ export default class DestinationsManager extends ManagerDB<IDestinations> {
       }
    }
 
-   getByProvider = async (
+   public getByProvider = async (
       idProvider: string,
       idDestination: string
    ): Promise<IDestinations | null> => {
@@ -80,7 +80,7 @@ export default class DestinationsManager extends ManagerDB<IDestinations> {
       }
    };
 
-   addActivities = async (
+   public addActivities = async (
       destination: IDestinations,
       activities: IActivities
    ) => {
