@@ -32,32 +32,32 @@ const rolesSchema = new Schema<IAccomodation>({
         required:true,
         
     },
-    zoneType:{
+    zone:{
         type:String,
         required:false,
         
     },
-    rooms:{
+    roomsCount:{
         type:Number,
         required:false,
         
     },
-    beds:{
+    bedsCount:{
         type:Number,
         required:false,
         
     },
-    maxPeoples:{
+    maxOccupancy:{
         type:Number,
         required:false,
         
     },
-    bathRooms:{
+    bathRoomsCount:{
         type:Number,
         required:false,
         
     },
-    services:{
+    amenities:{
         type:[String],
         required:false,
         

@@ -7,12 +7,12 @@ export default interface IAccomodation extends Document {
    galleryImage: string[];
    quantity: number;
    category: string[];
-   zoneType: string;
-   rooms:number;
-   beds:number;
-   maxPeoples: number
-   bathRooms:number;
-   services:string[];
+   zone: string;
+   roomsCount:number;
+   bedsCount:number;
+   maxOccupancy: number
+   bathRoomsCount:number;
+   amenities:string[];
    providerId:ObjectId;
    itDeleted:boolean;
   
