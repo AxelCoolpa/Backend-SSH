@@ -237,7 +237,28 @@ export default class ActivitiesRoutes {
          this.upload.any(),
          this.activitiesController.updateActivity
       );
-      this.router.get("");
+      /**
+ * @swagger
+ * /api/activity/{idActivity}:
+ *   delete:
+ *     summary: Elimina una actividad por su ID.
+ *     parameters:
+ *       - in: path
+ *         name: idActivity
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID de la actividad a eliminar.
+ *     responses:
+ *       200:
+ *         description: Actividad eliminada exitosamente.
+ *       400:
+ *         description: Error al eliminar la actividad.
+ *       500:
+ *         description: Error interno del servidor.
+ */
+
+      this.router.delete("/activity/:idActivity", this.activitiesController.deleteActivity);
    }
 
    public getRouter() {

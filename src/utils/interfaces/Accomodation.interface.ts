@@ -4,7 +4,7 @@ export default interface IAccomodation extends Document {
    name: string;
    description: string;
    location: string;
-   galleryImage: string[];
+   images: string[];
    quantity: number;
    category: string[];
    zone: string;
@@ -15,5 +15,8 @@ export default interface IAccomodation extends Document {
    amenities:string[];
    providerId:ObjectId;
    itDeleted:boolean;
+   endDate:Date;
+   startDate:Date;
+   price:number;
   
 }
