@@ -8,8 +8,8 @@ export default interface IActivities extends Document {
    videoLink: string;
    category: string[];
    starterPack: string[];
-   startTime:string;
-   endTime:string;
+   startTime:Date;
+   endTime:Date;
    maxPeople: number
    groupPrice:string;
    individualPrice:string;

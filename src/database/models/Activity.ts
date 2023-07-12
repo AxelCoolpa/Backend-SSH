@@ -36,13 +36,13 @@ const activitiesSchema = new Schema(
       ],
       startTime: [
          {
-            type: String,
+            type: Date,
             required: false,
          },
       ],
       endTime: [
          {
-            type: String,
+            type: Date,
             required: false,
          },
       ],

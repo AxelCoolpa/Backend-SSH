@@ -16,7 +16,7 @@ export default class DestinationsController {
       try {
          const queryString: any = req.query;
          
-         console.log(req.query);
+         
          const destinations: IDestinations[] | MessageError =
             await this.destinationsService.serviceDestinations(
                queryString
