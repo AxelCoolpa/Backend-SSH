@@ -2,6 +2,7 @@ import { Response, Request } from "express";
 import ActivitiesService from "../services/Activity.service";
 import { messageError } from "../utils/errors/messageError";
 import IActivities from "../utils/interfaces/Activities.interface";
+import MessageError from "../utils/interfaces/MessageError.interfaces";
 
 export default class ActivitiesController {
    private activitiesService: ActivitiesService;
@@ -91,6 +92,25 @@ export default class ActivitiesController {
          return res.status(500).json({ error: messageError(error) });
       }
    };
+
+   public deleteActivity = async (req: Request, res: Response) => {
+      try {
+         const { idActivity } = req.params;
+         const deleteActivity: any = await this.activitiesService.delete(idActivity);
+
+         if ("status" in deleteActivity) {
+            return res
+               .status(deleteActivity["status"])
+               .json(deleteActivity["message"]);
+         }
+
+         return res.status(204).json(deleteActivity);
+      
+         
+      } catch (error) {
+         return res.status(500).json({ error: messageError(error) });}
+      
+   }
 
    public filterActivity = async (req: Request ,res: Response) => {
         const filterData = req.body
