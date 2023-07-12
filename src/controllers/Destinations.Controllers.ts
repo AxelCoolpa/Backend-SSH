@@ -14,12 +14,12 @@ export default class DestinationsController {
 
    public getAll = async (req: Request, res: Response) => {
       try {
-         const { search } = req.query;
-         const parametroDeBusqueda = search as string | undefined;
-
+         const queryString: any = req.query;
+         
+         
          const destinations: IDestinations[] | MessageError =
             await this.destinationsService.serviceDestinations(
-               parametroDeBusqueda
+               queryString
             );
 
          if ("status" in destinations) {

@@ -1,4 +1,5 @@
 import { ObjectId } from "mongoose";
+import moment from "moment";
 import ActivitiesManager from "../database/manager/ManagerActivity";
 import DestinationsManager from "../database/manager/ManagerDestinations";
 import UserManager from "../database/manager/ManagerUsers";
@@ -24,6 +25,12 @@ export default class ActivitiesService {
    public getAll = async (): Promise<IActivities[] | Error> => {
       try {
          const activities = await this.activitiesManager.getAll();
+         activities.forEach(async (activity:any) => {
+            console.log(activity.startTime, activity.endTime)
+            activity.startTime.forEach( (startTime:any)=>{
+               console.log(startTime)
+            })
+         })
          return activities;
       } catch (error) {
          throw error;
@@ -50,15 +57,22 @@ export default class ActivitiesService {
    public create = async (
       bodyController: any
    ): Promise<IActivities | MessageError> => {
-      const {  idUser, activity, images } = bodyController;
+      const { idUser, activity, images } = bodyController;
       const urlImages = setArrayImages(images);
-      const {idDestination} = activity
+      const { idDestination } = activity;
 
+      const startTime = activity.startTime.map((fecha:any)=>{
+         return moment(fecha)
+      })
+      const endTime = activity.endTime.map((fecha:any)=>{
+         return moment(fecha)      
+      });
+      
       try {
          const destination: IDestinations =
             await this.destinationmanager.getById(idDestination);
          
-            if (!destination) {
+         if (!destination) {
             return {
                status: 404,
                message:
@@ -75,23 +89,31 @@ export default class ActivitiesService {
          }
 
          const isProvider: IRoles | ObjectId | any = user.role;
-         
-         if (isProvider.roleName === "PROVIDER" || isProvider.roleName === "ADMIN") {
+
+         if (
+            isProvider.roleName === "PROVIDER" ||
+            isProvider.roleName === "ADMIN"
+         ) {
+
             activity.providerId = user._id;
             activity.galleryImage = urlImages;
-            const newActivity = await this.activitiesManager.create(activity);
-   
+            activity.startTime = startTime
+            activity.endTime = endTime
+            const newActivity = await this.activitiesManager.create(activity);            
+            
             await this.usermanager.addActivities(user, newActivity);
-            await this.destinationmanager.addActivities(destination, newActivity);
-   
-            return newActivity;
 
+            await this.destinationmanager.addActivities(
+               destination,
+               newActivity
+            );
+
+            return newActivity;
          }
          return {
             status: 403,
             message: "You are not a provider",
          };
-
       } catch (error) {
          throw error;
       }
@@ -100,15 +122,15 @@ export default class ActivitiesService {
    public update = async (
       bodyController: any
    ): Promise<IActivities | MessageError> => {
-      const { idActivity, newActivity, images ,idUser } = bodyController;
+      const { idActivity, newActivity, images, idUser } = bodyController;
 
       const provider: IUser = await this.usermanager.getById(idUser);
 
       if (!provider)
-        return { status: 400, message: "Bad request provider not found" };
+         return { status: 400, message: "Bad request provider not found" };
 
-      if(images) {
-         newActivity.galleryImage = setArrayImages(images)
+      if (images) {
+         newActivity.galleryImage = setArrayImages(images);
       }
 
       try {
@@ -130,44 +152,49 @@ export default class ActivitiesService {
       }
    };
 
-   public filterActivities = async (formData : IActivities): Promise<IActivities[] | Error> => {
+   public filterActivities = async (
+      formData: IActivities
+   ): Promise<IActivities[] | Error> => {
       try {
          let activities = await this.activitiesManager.getAll();
 
-         if(formData.location){
-           activities = activities.filter((el : IActivities)=> el.location.toLowerCase().includes(formData.location.toLowerCase()))
+         if (formData.location) {
+            activities = activities.filter((el: IActivities) =>
+               el.location
+                  .toLowerCase()
+                  .includes(formData.location.toLowerCase())
+            );
          }
 
-         if(formData.startTime && formData.endTime){
-            
+         if (formData.startTime && formData.endTime) {
             const fechaInicio = new Date(formData.startTime);
             const fechaFin = new Date(formData.endTime);
 
-            activities = activities.filter((el:IActivities )=> {
+            activities = activities.filter((el: IActivities) => {
                const startDate = new Date(el.startTime);
                const endDate = new Date(el.endTime);
                return startDate >= fechaInicio && endDate <= fechaFin;
-             });
-         }
-         else if(formData.startTime){
+            });
+         } else if (formData.startTime) {
             const fechaInicio = new Date(formData.startTime);
-            activities = activities.filter((el:IActivities )=> {
+            activities = activities.filter((el: IActivities) => {
                const startDate = new Date(el.startTime);
-               return startDate >= fechaInicio 
-             });
-         }
-         else if(formData.endTime){
+               return startDate >= fechaInicio;
+            });
+         } else if (formData.endTime) {
             const fechaFin = new Date(formData.endTime);
-            activities = activities.filter((el:IActivities )=> {
+            activities = activities.filter((el: IActivities) => {
                const endDate = new Date(el.endTime);
-               return  endDate <= fechaFin;
-             });
+               return endDate <= fechaFin;
+            });
          }
 
-         if(formData.maxPeople){
-            activities = activities.filter((el: IActivities)=> el.maxPeople === formData.maxPeople)
+         if (formData.maxPeople) {
+            activities = activities.filter(
+               (el: IActivities) => el.maxPeople === formData.maxPeople
+            );
          }
- 
+
          return activities;
       } catch (error) {
          throw error;

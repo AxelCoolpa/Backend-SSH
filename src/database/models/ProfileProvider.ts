@@ -52,6 +52,6 @@ const ProfileProviderSchema = new Schema<IProfileProvider>({
         type: Boolean,
         default: false
     }
-})
+},{timestamps: true})
 
 export default model<IProfileProvider>("ProfileProvider",ProfileProviderSchema);

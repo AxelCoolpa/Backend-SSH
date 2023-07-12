@@ -100,7 +100,7 @@ const userSchema = new Schema<IUser>({
       type: String,
       default: "",
    },
-});
+},{timestamps: true});
 
 userSchema.pre<IUser>("save", async function (next) {
    const user = this;

@@ -1,9 +1,7 @@
-
+import moment from "moment";
 import IDestinations from "../../utils/interfaces/Destinations.Interfaces";
 import Destinations from "../models/Destinations";
 import ManagerDB from "./ManagerDB";
-
-import MessageError from "../../utils/interfaces/MessageError.interfaces";
 import IActivities from "../../utils/interfaces/Activities.interface";
 import IAccomodation from "../../utils/interfaces/Accomodation.interface";
 
@@ -12,7 +10,6 @@ export default class DestinationsManager extends ManagerDB<IDestinations> {
 
    private constructor() {
       super(Destinations);
-      
    }
 
    public static getInstance(): DestinationsManager {
@@ -20,32 +17,33 @@ export default class DestinationsManager extends ManagerDB<IDestinations> {
          DestinationsManager.instance = new DestinationsManager();
       }
       return DestinationsManager.instance;
-   
    }
-   async getAll(): Promise<IDestinations[]> {
+   public async getAll(): Promise<IDestinations[]> {
       try {
-         return await this.model.find().populate('activities');
+         return await this.model.find().populate("activities");
       } catch (error) {
-         throw error
+         throw error;
       }
    }
 
-   async getById(idDestination: string): Promise<IDestinations>{
+   public async getById(idDestination: string): Promise<IDestinations> {
       try {
-         return await this.model.findById(idDestination).populate('activities');
+         return await this.model.findById(idDestination).populate("activities");
       } catch (error) {
-         throw error
+         throw error;
       }
    }
 
-   async search(search: any): Promise<IDestinations[] > {
+   public async search(search: any): Promise<IDestinations[]> {
       try {
-         const searchDestinations = await this.model.find({
-            $or: [
-               { title: { $regex: search, $options: "i" } },
-               { description: { $regex: search, $options: "i" } },
-            ],
-         }).populate('activities');
+         const searchDestinations = await this.model
+            .find({
+               $or: [
+                  { title: { $regex: search, $options: "i" } },
+                  { description: { $regex: search, $options: "i" } },
+               ],
+            })
+            .populate("activities");
 
          return searchDestinations;
       } catch (error) {
@@ -53,13 +51,12 @@ export default class DestinationsManager extends ManagerDB<IDestinations> {
       }
    }
 
-   async create(destinationObjt: any): Promise<IDestinations> {
+   public async create(destinationObjt: any): Promise<IDestinations> {
       try {
-         
+         const newDestination: IDestinations = await this.model(
+            destinationObjt
+         );
 
-         const newDestination: IDestinations = await this.model(destinationObjt);
-         
-         
          await newDestination.save();
 
          return newDestination;
@@ -68,7 +65,7 @@ export default class DestinationsManager extends ManagerDB<IDestinations> {
       }
    }
 
-   getByProvider = async (
+   public getByProvider = async (
       idProvider: string,
       idDestination: string
    ): Promise<IDestinations | null> => {
@@ -84,22 +81,27 @@ export default class DestinationsManager extends ManagerDB<IDestinations> {
       }
    };
 
-   addActivities = async (destination: IDestinations, activities: IActivities)=>{
+   public addActivities = async (
+      destination: IDestinations,
+      activities: IActivities
+   ) => {
       try {
          destination.activities.push(activities._id);
          await destination.save();
       } catch (error) {
          throw error;
       }
-   
+   };
 
-   }
-   addAccomodations = async (destination: IDestinations, accomodations: IAccomodation)=>{
+   addAccomodations = async (
+      destination: IDestinations,
+      accomodations: IAccomodation
+   ) => {
       try {
          destination.accomodations.push(accomodations._id);
          await destination.save();
       } catch (error) {
          throw error;
       }
-   }
+   };
 }
