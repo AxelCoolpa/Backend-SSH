@@ -6,8 +6,8 @@ export default interface IAccomodation extends Document {
    location: string;
    images: string[];
    quantity: number;
-   category: string[];
-   zone: string;
+   category: string;
+   zone: string[];
    roomsCount:number;
    bedsCount:number;
    maxOccupancy: number
