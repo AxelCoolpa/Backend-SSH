@@ -62,11 +62,25 @@ const rolesSchema = new Schema<IAccomodation>({
         required:false,
         
     },
-    galleryImage: {
+    images: {
         type: [String],
         required: false,
         default: [],
      },
+
+     endDate:{
+        type:Date,
+        required:true
+     },
+     startDate:{
+        type:Date,  
+        required:true
+     },
+     price:{
+        type:Number,
+        required:true
+     },
+
     itDeleted:{
         type:Boolean,
         default:false,

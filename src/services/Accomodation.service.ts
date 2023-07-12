@@ -78,7 +78,7 @@ export default class AccomodationService {
          
          if (isProvider.roleName === "PROVIDER" || isProvider.roleName === "ADMIN") {
             accomodation.providerId = user._id;
-            accomodation.galleryImage = urlImages;
+            accomodation.images = urlImages;
             const newAccomodation = await this.accomodationManager.create(accomodation);
    
             await this.usermanager.addAccomodations(user, newAccomodation);
@@ -108,7 +108,7 @@ export default class AccomodationService {
         return { status: 400, message: "Bad request provider not found" };
 
       if(images) {
-         newAccomodation.galleryImage = setArrayImages(images)
+         newAccomodation.images = setArrayImages(images)
       }
 
       try {
