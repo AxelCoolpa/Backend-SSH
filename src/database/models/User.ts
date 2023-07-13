@@ -40,8 +40,8 @@ const userSchema = new Schema<IUser>({
       default: false,
    },
    role: {
-      type: Schema.Types.ObjectId,
-      ref: "Role",
+      type: {},
+      default:{}
    },   
    profileProvider: {
       type: Schema.Types.ObjectId,

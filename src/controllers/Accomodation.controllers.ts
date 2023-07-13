@@ -19,9 +19,9 @@ export default class ActivitiesController {
    };
     
    public getAccomodationById = async (req: Request, res: Response) => {
-    const { idActivity } = req.params;
+    const { idAccomodation } = req.params;
     try {
-       const accomodation = await this.accomodationService.getById(idActivity);
+       const accomodation = await this.accomodationService.getById(idAccomodation);
 
        if ("status" in accomodation) {
           return res.status(accomodation["status"]).json(accomodation["message"]);

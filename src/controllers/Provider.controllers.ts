@@ -23,6 +23,7 @@ export default class ProfileProviderController {
             companyRepresentative:req.body.companyRepresentative,
             relatedChannel:req.body.relatedChannel,
             descriptionBusiness:req.body.descriptionBusiness,
+            serviceType: req.body.serviceType,
             isRegistered:req.body.isRegistered,
             user: idUser,
          };
