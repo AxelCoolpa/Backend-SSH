@@ -129,4 +129,27 @@ export default class DestinationsController {
          return res.status(500).json(messageError(error));
       }
    };
+
+   public filterController = async (
+      req: Request, 
+      res: Response
+   ): Promise<Response> => {
+      
+      try {
+         const { idDestination } = req.params;
+         const formData = req.body;        
+          const filterDestination = await this.destinationsService.preFilterDestinations(idDestination,formData);
+
+         if ("status" in filterDestination) {
+            return res.status(filterDestination["status"]).json({
+               msg: filterDestination["message"],
+            });
+         }
+
+         return res.status(204).json(filterDestination);
+      } catch (error) {
+         return res.status(500).json(messageError(error));
+      }
+   }
+   
 }

@@ -86,7 +86,7 @@ export default class DestinationsService {
       }
    };
 
-   public getByIdService = async (idDestinations: string) => {
+   public getByIdService = async (idDestinations: string)  => {
       try {
          const destination = await this.managerDestinations.getById(
             idDestinations
@@ -172,4 +172,70 @@ export default class DestinationsService {
          throw error;
       }
    };
+
+   public preFilterDestinations = async (idDestination: string , formData : any ): Promise<IDestinations | MessageError> => {
+      try {
+         let destinations = await this.managerDestinations.getById(
+            idDestination
+         );
+         if (!destinations) {
+            return { status: 404, message: "Destination not found" };
+         }
+         
+         if (formData.location) {
+           let activities = destinations.activities.filter((el: any) =>
+           el.location
+              .toLowerCase()
+              .includes(formData.location.toLowerCase())
+        );
+         destinations.activities = activities;
+         }
+         
+         if(formData.categories){
+            let categories : any = []
+          formData.categories.forEach((category: string) => {
+            destinations.activities.forEach((el: any) => {
+              if (el.category.toLowerCase().includes(category.toLocaleLowerCase())) {
+                categories.push(el);
+              }
+            });
+         })
+         destinations.activities = categories
+         }
+
+         if (formData.maxPeople) {
+           let activitiesPeople = destinations.activities.filter(
+               (el: any) => el.maxPeople === formData.maxPeople
+            );
+         destinations.activities = activitiesPeople;
+         }
+
+         if (formData.startTime && formData.endTime){
+            let activities = filterOfTime(formData.startTime, formData.endTime, destinations.activities);
+            destinations.activities = activities; 
+            }
+             else if (formData.startTime) {
+               const fechaInicio = new Date(formData.startTime);
+               let activity = destinations.activities.filter((el: any) => {
+                  const startDate = new Date(el.startTime);
+                  return startDate >= fechaInicio;
+               });
+   
+               destinations.activities = activity; 
+   
+             } else if (formData.endTime) {
+               const fechaFin = new Date(formData.endTime);
+              let activityEnd = destinations.activities.filter((el: any) => {
+                  const endDate = new Date(el.endTime);
+                  return endDate <= fechaFin;
+               });
+               destinations.activities = activityEnd;
+            }
+           
+         return destinations;
+         
+      } catch (error) {
+         throw error;
+      }
+   }
 }

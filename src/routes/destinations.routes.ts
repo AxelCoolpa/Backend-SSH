@@ -221,6 +221,11 @@ export default class DestinationsRoutes {
          "/destination/:idDestination",
          this.destinationsControllers.deleteController
       );
+
+      this.router.post(
+         "/destination/:idDestination/preFilter",
+         this.destinationsControllers.filterController
+      );
    }
 
    public getRouter(): Router {

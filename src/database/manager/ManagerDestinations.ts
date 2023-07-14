@@ -104,4 +104,6 @@ export default class DestinationsManager extends ManagerDB<IDestinations> {
          throw error;
       }
    };
+
+   
 }
