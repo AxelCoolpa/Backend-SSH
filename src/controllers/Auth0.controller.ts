@@ -1,8 +1,8 @@
 import passport from "passport";
 import { Request, Response } from "express";
-import User from "../database/models/User";
-import IUser from "../utils/interfaces/User.Interfaces";
 import { messageError } from "../utils/errors/messageError";
+
+
 
 
 
@@ -34,7 +34,7 @@ export default class Auth0Controller{
      };
      
      profile = async (req: any, res: any, next: any) => {
-      //   const { email } = req.user;
+      
         try {
          console.log()
          
