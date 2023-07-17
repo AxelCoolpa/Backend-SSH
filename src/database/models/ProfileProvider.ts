@@ -7,6 +7,7 @@ const ProfileProviderSchema = new Schema<IProfileProvider>({
     companyName: {
         type: String,
         required: true,
+        unique: true,
     },
     companyRepresentative: {
         type: String,
@@ -19,6 +20,7 @@ const ProfileProviderSchema = new Schema<IProfileProvider>({
     companyEmail: {
         type: String,
         required: true,
+        unique: true,
     },
     relatedChannel:{
         type: String,
