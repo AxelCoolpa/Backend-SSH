@@ -40,14 +40,14 @@ export default class ManagerProvider extends ManagerDB<IProfileProvider> {
          if (!user) {
             return {status:404,  message: "User not found" };
          }
-
-         const newPrivider = new this.model(obj);
-         newPrivider.user = user._id;
-         await newPrivider.save();
-         
-         await this.userManager.addProfileProvider(user,newPrivider)
-
-         await this.userManager.addRole(user,(role as IRoles))
+         console.log(obj.serviceType)
+         const newProvider: IProfileProvider = new this.model(obj);
+         newProvider.user = user._id;
+         await newProvider.save();
+         console.log(newProvider.serviceType)
+         await this.userManager.addProfileProvider(user,newProvider)
+         const roleType = await this.roleManager.setTypeRole(role, newProvider.serviceType)
+         await this.userManager.addRole(user,(roleType as IRoles))
         
 
          await user.save();

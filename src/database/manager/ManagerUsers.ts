@@ -11,19 +11,17 @@ import IActivities from "../../utils/interfaces/Activities.interface";
 import IAccomodation from "../../utils/interfaces/Accomodation.interface";
 
 export default class UserManager extends ManagerDB<IUser> {
-   
    private static instances: UserManager;
-   
+
    private constructor() {
-      
       super(User);
    }
 
-   public static getInstance(){
-      if(!UserManager.instances){
+   public static getInstance() {
+      if (!UserManager.instances) {
          UserManager.instances = new UserManager();
       }
-      return UserManager.instances;   
+      return UserManager.instances;
    }
 
    async getAll(): Promise<IUser[] | null> {
@@ -41,8 +39,9 @@ export default class UserManager extends ManagerDB<IUser> {
    async getById(id: string): Promise<IUser> {
       try {
          const user = await this.model
-            .findOne({ _id: id, itDeleted: false }, { password: 0 })            
-            .populate("role", { roleName: 1, _id: 0 })
+            .findOne({ _id: id })
+            .select("-role._id -role.itDeleted -role.__v -password")
+            .populate("role", { roleName: 1, typeRole: 1, _id: 0 })
             .populate("profileProvider", { user: 0 })
             .populate("activities");
 
@@ -80,7 +79,7 @@ export default class UserManager extends ManagerDB<IUser> {
    async addRole(user: IUser, role: IRoles): Promise<IUser | null> {
       try {
          let userRole = user;
-         userRole.role = role._id;
+         userRole.role = role;
          return await userRole.save();
       } catch (error) {
          throw error;
@@ -121,8 +120,7 @@ export default class UserManager extends ManagerDB<IUser> {
 
    async addAccomodations(
       user: IUser,
-      accomodations: IAccomodation,
-
+      accomodations: IAccomodation
    ): Promise<IUser | null> {
       try {
          let userAccomodations = user;

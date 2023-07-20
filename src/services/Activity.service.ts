@@ -152,7 +152,7 @@ export default class ActivitiesService {
       }
    };
 
-   public delete = async (idActivity: string): Promise<boolean | MessageError>=>{
+   public delete = async (idActivity: string): Promise<IActivities | MessageError>=>{
       try {
          const deletedActivity = await this.activitiesManager.delete(idActivity);
          if (!deletedActivity) {
@@ -161,7 +161,7 @@ export default class ActivitiesService {
                message: "Activity not fond",
             };
          }
-         return true;
+         return deletedActivity;
       } catch (error) {
          throw error;
       }

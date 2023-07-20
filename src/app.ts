@@ -17,6 +17,7 @@ import Auth0Routes from "./routes/prubea.routes";
 import DestinationsRoutes from "./routes/destinations.routes";
 import ActivitiesRoutes from "./routes/activity.routes";
 import AccomodationRoutes from "./routes/accomodation.routes";
+import PaymentRoutes from "./routes/payment.routes";
 
 const options: CorsOptions = {};
 export default class App {
@@ -30,6 +31,7 @@ export default class App {
    private readonly destinationRoutes: DestinationsRoutes;
    private readonly activitiesRoutes: ActivitiesRoutes;
    private readonly accomodationsRoutes: AccomodationRoutes
+   private readonly paymentRoutes: PaymentRoutes
    private server: any;
 
    constructor() {
@@ -42,6 +44,7 @@ export default class App {
       this.destinationRoutes = new DestinationsRoutes();
       this.activitiesRoutes = new ActivitiesRoutes();
       this.accomodationsRoutes = new AccomodationRoutes();
+      this.paymentRoutes = new PaymentRoutes();
       this.configure();
    }
 
@@ -87,6 +90,7 @@ export default class App {
       this.app.use("/api/img", express.static("upload"));
       this.app.use("/api", this.activitiesRoutes.getRouter());
       this.app.use("/api", this.accomodationsRoutes.getRouter());
+      this.app.use("/api", this.paymentRoutes.getRouter());
       this.app.get("/", (req: any, res): any => {
          return res.status(200).json({
             msg: `welcome requests to /api/example`,

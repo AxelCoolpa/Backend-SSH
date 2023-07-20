@@ -37,5 +37,16 @@ export default class ManagerRoles extends ManagerDB<IRoles> {
         }
     }
 
+    public async setTypeRole (role: IRoles, type:string): Promise<IRoles> {
+        try {
+            const newTypeRole = role 
+            newTypeRole.typeRole = type || '';
+            newTypeRole.save();
+            return newTypeRole
+        } catch (error) {
+            throw error;
+        }
+    }
+
     
 }
